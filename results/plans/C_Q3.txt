@@ -1,0 +1,16 @@
+SET
+GroupAggregate  (cost=8804.41..9046.79 rows=7458 width=36) (actual time=70.080..71.845 rows=24.00 loops=1)
+  Group Key: ((EXTRACT(hour FROM (obs_time AT TIME ZONE 'Asia/Seoul'::text)))::integer)
+  Buffers: shared hit=7393
+  ->  Sort  (cost=8804.41..8823.05 rows=7458 width=8) (actual time=69.948..70.626 rows=7358.00 loops=1)
+        Sort Key: ((EXTRACT(hour FROM (obs_time AT TIME ZONE 'Asia/Seoul'::text)))::integer)
+        Sort Method: quicksort  Memory: 365kB
+        Buffers: shared hit=7393
+        ->  Index Scan using idx_plain_road_time on obs_plain  (cost=0.56..8324.69 rows=7458 width=8) (actual time=0.165..67.496 rows=7358.00 loops=1)
+              Index Cond: ((road_id = 777) AND (obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+              Index Searches: 1
+              Buffers: shared hit=7390
+Planning:
+  Buffers: shared hit=147
+Planning Time: 4.110 ms
+Execution Time: 71.973 ms

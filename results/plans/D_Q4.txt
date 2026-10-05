@@ -1,0 +1,66 @@
+SET
+Sort  (cost=267909.52..267909.59 rows=31 width=10) (actual time=4579.536..4614.664 rows=31.00 loops=1)
+  Sort Key: (sum(obs_part.volume)) DESC, obs_part.region_id
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=110467
+  ->  Finalize GroupAggregate  (cost=267899.45..267908.75 rows=31 width=10) (actual time=4579.432..4614.623 rows=31.00 loops=1)
+        Group Key: obs_part.region_id
+        Buffers: shared hit=110464
+        ->  Gather Merge  (cost=267899.45..267908.07 rows=74 width=10) (actual time=4579.413..4614.573 rows=93.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=110464
+              ->  Sort  (cost=266899.43..266899.50 rows=31 width=10) (actual time=4568.453..4568.466 rows=31.00 loops=3)
+                    Sort Key: obs_part.region_id
+                    Sort Method: quicksort  Memory: 25kB
+                    Buffers: shared hit=110464
+                    Worker 0:  Sort Method: quicksort  Memory: 25kB
+                    Worker 1:  Sort Method: quicksort  Memory: 25kB
+                    ->  Partial HashAggregate  (cost=266898.35..266898.66 rows=31 width=10) (actual time=4568.380..4568.397 rows=31.00 loops=3)
+                          Group Key: obs_part.region_id
+                          Batches: 1  Memory Usage: 32kB
+                          Buffers: shared hit=110450
+                          Worker 0:  Batches: 1  Memory Usage: 32kB
+                          Worker 1:  Batches: 1  Memory Usage: 32kB
+                          ->  Parallel Append  (cost=0.00..235612.43 rows=6257183 width=6) (actual time=0.024..2979.760 rows=5006747.67 loops=3)
+                                Buffers: shared hit=110450
+                                ->  Parallel Seq Scan on obs_part_2024_03 obs_part_3  (cost=0.00..17330.33 rows=530716 width=6) (actual time=0.025..433.802 rows=1273973.00 loops=1)
+                                      Filter: ((obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                                      Buffers: shared hit=9368
+                                ->  Parallel Seq Scan on obs_part_2024_10 obs_part_10  (cost=0.00..17325.22 rows=530575 width=6) (actual time=0.024..424.792 rows=1273635.00 loops=1)
+                                      Filter: ((obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                                      Buffers: shared hit=9365
+                                ->  Parallel Seq Scan on obs_part_2024_12 obs_part_12  (cost=0.00..17311.49 rows=530126 width=6) (actual time=0.018..619.388 rows=1272558.00 loops=1)
+                                      Filter: ((obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                                      Buffers: shared hit=9358
+                                ->  Parallel Seq Scan on obs_part_2024_08 obs_part_8  (cost=0.00..17308.17 rows=530039 width=6) (actual time=0.019..678.467 rows=1272347.00 loops=1)
+                                      Filter: ((obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                                      Buffers: shared hit=9356
+                                ->  Parallel Seq Scan on obs_part_2024_01 obs_part_1  (cost=0.00..17298.84 rows=529750 width=6) (actual time=0.015..463.282 rows=1271654.00 loops=1)
+                                      Filter: ((obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                                      Buffers: shared hit=9351
+                                ->  Parallel Seq Scan on obs_part_2024_07 obs_part_7  (cost=0.00..17295.39 rows=529654 width=6) (actual time=0.023..466.737 rows=1271423.00 loops=1)
+                                      Filter: ((obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                                      Buffers: shared hit=9349
+                                ->  Parallel Seq Scan on obs_part_2024_05 obs_part_5  (cost=0.00..17285.88 rows=529352 width=6) (actual time=0.018..155.001 rows=423566.67 loops=3)
+                                      Filter: ((obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                                      Buffers: shared hit=9344
+                                ->  Parallel Seq Scan on obs_part_2024_06 obs_part_6  (cost=0.00..16756.54 rows=513133 width=6) (actual time=0.022..215.163 rows=615883.00 loops=2)
+                                      Filter: ((obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                                      Buffers: shared hit=9058
+                                ->  Parallel Seq Scan on obs_part_2024_04 obs_part_4  (cost=0.00..16747.54 rows=512867 width=6) (actual time=0.018..456.405 rows=1231127.00 loops=1)
+                                      Filter: ((obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                                      Buffers: shared hit=9053
+                                ->  Parallel Seq Scan on obs_part_2024_11 obs_part_11  (cost=0.00..16736.53 rows=512533 width=6) (actual time=0.025..451.437 rows=1230325.00 loops=1)
+                                      Filter: ((obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                                      Buffers: shared hit=9047
+                                ->  Parallel Seq Scan on obs_part_2024_09 obs_part_9  (cost=0.00..16734.57 rows=512469 width=6) (actual time=0.016..570.909 rows=1230171.00 loops=1)
+                                      Filter: ((obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                                      Buffers: shared hit=9046
+                                ->  Parallel Seq Scan on obs_part_2024_02 obs_part_2  (cost=0.00..16196.02 rows=495969 width=6) (actual time=0.020..404.122 rows=1190564.00 loops=1)
+                                      Filter: ((obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                                      Buffers: shared hit=8755
+Planning:
+  Buffers: shared hit=922
+Planning Time: 4.682 ms
+Execution Time: 4614.951 ms

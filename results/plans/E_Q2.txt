@@ -1,0 +1,21 @@
+SET
+Sort  (cost=242.02..243.35 rows=531 width=64) (actual time=7.181..7.187 rows=30.00 loops=1)
+  Sort Key: (to_char((day)::timestamp with time zone, 'YYYY-MM-DD'::text))
+  Sort Method: quicksort  Memory: 26kB
+  Buffers: shared hit=172
+  ->  HashAggregate  (cost=203.38..217.98 rows=531 width=64) (actual time=7.011..7.060 rows=30.00 loops=1)
+        Group Key: to_char((day)::timestamp with time zone, 'YYYY-MM-DD'::text)
+        Batches: 1  Memory Usage: 49kB
+        Buffers: shared hit=169
+        ->  Bitmap Heap Scan on daily_region_stats  (cost=10.89..196.43 rows=927 width=48) (actual time=4.514..6.713 rows=930.00 loops=1)
+              Recheck Cond: ((day >= '2024-11-01'::date) AND (day < '2024-12-01'::date))
+              Heap Blocks: exact=167
+              Buffers: shared hit=169
+              ->  Bitmap Index Scan on idx_rollup_day  (cost=0.00..10.66 rows=927 width=0) (actual time=0.082..0.085 rows=930.00 loops=1)
+                    Index Cond: ((day >= '2024-11-01'::date) AND (day < '2024-12-01'::date))
+                    Index Searches: 1
+                    Buffers: shared hit=2
+Planning:
+  Buffers: shared hit=147
+Planning Time: 4.332 ms
+Execution Time: 7.367 ms

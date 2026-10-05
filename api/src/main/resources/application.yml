@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: traffic-stats-api
+  datasource:
+    url: ${LAB_DB_URL:jdbc:postgresql://localhost:55432/lab}
+    username: ${LAB_DB_USER:lab}
+    password: ${LAB_DB_PASSWORD:}
+    hikari:
+      maximum-pool-size: 10
+  cache:
+    type: redis
+    redis:
+      time-to-live: 5m          # 통계는 몇 분 늦어도 되는 화면에 쓴다는 가정. 결정 근거는 docs/decisions.md
+      key-prefix: "traffic:"
+      use-key-prefix: true
+  data:
+    redis:
+      host: ${LAB_REDIS_HOST:localhost}
+      port: ${LAB_REDIS_PORT:56379}
+      timeout: 200ms           # Redis 가 느려도 조회가 오래 막히지 않게
+      connect-timeout: 200ms
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+    tags:
+      application: traffic-stats-api
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+server:
+  tomcat:
+    threads:
+      max: 50

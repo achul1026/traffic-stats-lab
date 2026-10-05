@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="470" viewBox="0 0 900 470" font-family="Noto Sans CJK KR, Malgun Gothic, sans-serif"><rect width="900" height="470" fill="#fff"/>
+<text x="70" y="28" font-size="18" font-weight="700" fill="#0e1116">API 처리량 (req/s, 로그 축)</text>
+<text x="70" y="48" font-size="12" fill="#5b6572">동시 20 · 300요청 · 데이터 500만 건 · 높을수록 좋음</text>
+<line x1="70" x2="880" y1="370.0" y2="370.0" stroke="#d9dce1" stroke-dasharray="3 3"/>
+<text x="62" y="374.0" font-size="11" text-anchor="end" fill="#5b6572">1</text>
+<line x1="70" x2="880" y1="292.5" y2="292.5" stroke="#d9dce1" stroke-dasharray="3 3"/>
+<text x="62" y="296.5" font-size="11" text-anchor="end" fill="#5b6572">10</text>
+<line x1="70" x2="880" y1="215.0" y2="215.0" stroke="#d9dce1" stroke-dasharray="3 3"/>
+<text x="62" y="219.0" font-size="11" text-anchor="end" fill="#5b6572">100</text>
+<line x1="70" x2="880" y1="137.5" y2="137.5" stroke="#d9dce1" stroke-dasharray="3 3"/>
+<text x="62" y="141.5" font-size="11" text-anchor="end" fill="#5b6572">1,000</text>
+<line x1="70" x2="880" y1="60.0" y2="60.0" stroke="#d9dce1" stroke-dasharray="3 3"/>
+<text x="62" y="64.0" font-size="11" text-anchor="end" fill="#5b6572">10,000</text>
+<rect x="96.7" y="213.3" width="60.6" height="156.7" fill="#9aa3ae"/>
+<text x="127.0" y="209.3" font-size="11" text-anchor="middle" fill="#0e1116">105</text>
+<rect x="166.4" y="121.6" width="60.6" height="248.4" fill="#e8a07f"/>
+<text x="196.7" y="117.6" font-size="11" text-anchor="middle" fill="#0e1116">1,605</text>
+<rect x="236.1" y="125.9" width="60.6" height="244.1" fill="#e8501f"/>
+<text x="266.4" y="121.9" font-size="11" text-anchor="middle" fill="#0e1116">1,414</text>
+<text x="199.7" y="392" font-size="13" font-weight="700" text-anchor="middle" fill="#0e1116">Q1 월별 통행량</text>
+<rect x="363.3" y="297.3" width="60.6" height="72.7" fill="#9aa3ae"/>
+<text x="393.6" y="293.3" font-size="11" text-anchor="middle" fill="#0e1116">9</text>
+<rect x="433.0" y="135.1" width="60.6" height="234.9" fill="#e8a07f"/>
+<text x="463.3" y="131.1" font-size="11" text-anchor="middle" fill="#0e1116">1,075</text>
+<rect x="502.7" y="121.7" width="60.6" height="248.3" fill="#e8501f"/>
+<text x="533.0" y="117.7" font-size="11" text-anchor="middle" fill="#0e1116">1,600</text>
+<text x="466.4" y="392" font-size="13" font-weight="700" text-anchor="middle" fill="#0e1116">Q2 일별 평균 속도</text>
+<rect x="630.0" y="325.6" width="60.6" height="44.4" fill="#9aa3ae"/>
+<text x="660.3" y="321.6" font-size="11" text-anchor="middle" fill="#0e1116">4</text>
+<rect x="699.7" y="155.6" width="60.6" height="214.4" fill="#e8a07f"/>
+<text x="730.0" y="151.6" font-size="11" text-anchor="middle" fill="#0e1116">585</text>
+<rect x="769.4" y="125.9" width="60.6" height="244.1" fill="#e8501f"/>
+<text x="799.7" y="121.9" font-size="11" text-anchor="middle" fill="#0e1116">1,413</text>
+<text x="733.0" y="392" font-size="13" font-weight="700" text-anchor="middle" fill="#0e1116">Q4 지역 순위</text>
+<rect x="70" y="436" width="12" height="12" fill="#9aa3ae"/>
+<text x="88" y="446" font-size="12" fill="#0e1116">원본 조회</text>
+<rect x="260" y="436" width="12" height="12" fill="#e8a07f"/>
+<text x="278" y="446" font-size="12" fill="#0e1116">집계 테이블</text>
+<rect x="450" y="436" width="12" height="12" fill="#e8501f"/>
+<text x="468" y="446" font-size="12" fill="#0e1116">집계 + Redis 캐시</text>
+</svg>

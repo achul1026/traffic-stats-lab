@@ -1,0 +1,110 @@
+SET
+GroupAggregate  (cost=8614.68..8857.42 rows=7469 width=36) (actual time=46.482..48.070 rows=24.00 loops=1)
+  Group Key: ((EXTRACT(hour FROM (obs_part.obs_time AT TIME ZONE 'Asia/Seoul'::text)))::integer)
+  Buffers: shared hit=7189
+  ->  Sort  (cost=8614.68..8633.35 rows=7469 width=8) (actual time=46.325..46.994 rows=7358.00 loops=1)
+        Sort Key: ((EXTRACT(hour FROM (obs_part.obs_time AT TIME ZONE 'Asia/Seoul'::text)))::integer)
+        Sort Method: quicksort  Memory: 365kB
+        Buffers: shared hit=7189
+        ->  Append  (cost=11.80..8134.17 rows=7469 width=8) (actual time=0.308..44.546 rows=7358.00 loops=1)
+              Buffers: shared hit=7186
+              ->  Bitmap Heap Scan on obs_part_2024_01 obs_part_1  (cost=11.80..686.23 rows=633 width=8) (actual time=0.308..5.278 rows=642.00 loops=1)
+                    Recheck Cond: ((road_id = 777) AND (obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                    Heap Blocks: exact=621
+                    Buffers: shared hit=626
+                    ->  Bitmap Index Scan on obs_part_2024_01_road_id_obs_time_idx  (cost=0.00..11.64 rows=633 width=0) (actual time=0.171..0.172 rows=642.00 loops=1)
+                          Index Cond: ((road_id = 777) AND (obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                          Index Searches: 1
+                          Buffers: shared hit=5
+              ->  Bitmap Heap Scan on obs_part_2024_02 obs_part_2  (cost=11.28..641.72 rows=592 width=8) (actual time=0.304..3.655 rows=612.00 loops=1)
+                    Recheck Cond: ((road_id = 777) AND (obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                    Heap Blocks: exact=589
+                    Buffers: shared hit=595
+                    ->  Bitmap Index Scan on obs_part_2024_02_road_id_obs_time_idx  (cost=0.00..11.13 rows=592 width=0) (actual time=0.188..0.188 rows=612.00 loops=1)
+                          Index Cond: ((road_id = 777) AND (obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                          Index Searches: 1
+                          Buffers: shared hit=6
+              ->  Bitmap Heap Scan on obs_part_2024_03 obs_part_3  (cost=11.81..687.34 rows=634 width=8) (actual time=0.237..2.992 rows=580.00 loops=1)
+                    Recheck Cond: ((road_id = 777) AND (obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                    Heap Blocks: exact=570
+                    Buffers: shared hit=575
+                    ->  Bitmap Index Scan on obs_part_2024_03_road_id_obs_time_idx  (cost=0.00..11.65 rows=634 width=0) (actual time=0.147..0.147 rows=580.00 loops=1)
+                          Index Cond: ((road_id = 777) AND (obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                          Index Searches: 1
+                          Buffers: shared hit=5
+              ->  Bitmap Heap Scan on obs_part_2024_04 obs_part_4  (cost=11.53..662.89 rows=612 width=8) (actual time=0.214..2.911 rows=623.00 loops=1)
+                    Recheck Cond: ((road_id = 777) AND (obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                    Heap Blocks: exact=601
+                    Buffers: shared hit=607
+                    ->  Bitmap Index Scan on obs_part_2024_04_road_id_obs_time_idx  (cost=0.00..11.38 rows=612 width=0) (actual time=0.129..0.129 rows=623.00 loops=1)
+                          Index Cond: ((road_id = 777) AND (obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                          Index Searches: 1
+                          Buffers: shared hit=6
+              ->  Bitmap Heap Scan on obs_part_2024_05 obs_part_5  (cost=11.80..686.22 rows=633 width=8) (actual time=0.182..4.811 rows=610.00 loops=1)
+                    Recheck Cond: ((road_id = 777) AND (obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                    Heap Blocks: exact=590
+                    Buffers: shared hit=595
+                    ->  Bitmap Index Scan on obs_part_2024_05_road_id_obs_time_idx  (cost=0.00..11.64 rows=633 width=0) (actual time=0.099..0.099 rows=610.00 loops=1)
+                          Index Cond: ((road_id = 777) AND (obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                          Index Searches: 1
+                          Buffers: shared hit=5
+              ->  Bitmap Heap Scan on obs_part_2024_06 obs_part_6  (cost=11.53..663.96 rows=612 width=8) (actual time=0.228..2.984 rows=609.00 loops=1)
+                    Recheck Cond: ((road_id = 777) AND (obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                    Heap Blocks: exact=591
+                    Buffers: shared hit=597
+                    ->  Bitmap Index Scan on obs_part_2024_06_road_id_obs_time_idx  (cost=0.00..11.38 rows=612 width=0) (actual time=0.138..0.138 rows=609.00 loops=1)
+                          Index Cond: ((road_id = 777) AND (obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                          Index Searches: 1
+                          Buffers: shared hit=6
+              ->  Bitmap Heap Scan on obs_part_2024_07 obs_part_7  (cost=11.80..686.23 rows=633 width=8) (actual time=0.247..2.740 rows=585.00 loops=1)
+                    Recheck Cond: ((road_id = 777) AND (obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                    Heap Blocks: exact=571
+                    Buffers: shared hit=576
+                    ->  Bitmap Index Scan on obs_part_2024_07_road_id_obs_time_idx  (cost=0.00..11.64 rows=633 width=0) (actual time=0.160..0.160 rows=585.00 loops=1)
+                          Index Cond: ((road_id = 777) AND (obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                          Index Searches: 1
+                          Buffers: shared hit=5
+              ->  Bitmap Heap Scan on obs_part_2024_08 obs_part_8  (cost=11.79..685.13 rows=632 width=8) (actual time=0.191..2.971 rows=634.00 loops=1)
+                    Recheck Cond: ((road_id = 777) AND (obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                    Heap Blocks: exact=619
+                    Buffers: shared hit=624
+                    ->  Bitmap Index Scan on obs_part_2024_08_road_id_obs_time_idx  (cost=0.00..11.63 rows=632 width=0) (actual time=0.103..0.103 rows=634.00 loops=1)
+                          Index Cond: ((road_id = 777) AND (obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                          Index Searches: 1
+                          Buffers: shared hit=5
+              ->  Bitmap Heap Scan on obs_part_2024_09 obs_part_9  (cost=11.53..662.89 rows=612 width=8) (actual time=0.243..3.022 rows=629.00 loops=1)
+                    Recheck Cond: ((road_id = 777) AND (obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                    Heap Blocks: exact=602
+                    Buffers: shared hit=608
+                    ->  Bitmap Index Scan on obs_part_2024_09_road_id_obs_time_idx  (cost=0.00..11.38 rows=612 width=0) (actual time=0.149..0.150 rows=629.00 loops=1)
+                          Index Cond: ((road_id = 777) AND (obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                          Index Searches: 1
+                          Buffers: shared hit=6
+              ->  Bitmap Heap Scan on obs_part_2024_10 obs_part_10  (cost=11.80..686.24 rows=633 width=8) (actual time=0.271..4.833 rows=618.00 loops=1)
+                    Recheck Cond: ((road_id = 777) AND (obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                    Heap Blocks: exact=599
+                    Buffers: shared hit=604
+                    ->  Bitmap Index Scan on obs_part_2024_10_road_id_obs_time_idx  (cost=0.00..11.64 rows=633 width=0) (actual time=0.177..0.178 rows=618.00 loops=1)
+                          Index Cond: ((road_id = 777) AND (obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                          Index Searches: 1
+                          Buffers: shared hit=5
+              ->  Bitmap Heap Scan on obs_part_2024_11 obs_part_11  (cost=11.51..661.75 rows=610 width=8) (actual time=0.233..3.805 rows=583.00 loops=1)
+                    Recheck Cond: ((road_id = 777) AND (obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                    Heap Blocks: exact=562
+                    Buffers: shared hit=568
+                    ->  Bitmap Index Scan on obs_part_2024_11_road_id_obs_time_idx  (cost=0.00..11.35 rows=610 width=0) (actual time=0.140..0.141 rows=583.00 loops=1)
+                          Index Cond: ((road_id = 777) AND (obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                          Index Searches: 1
+                          Buffers: shared hit=6
+              ->  Bitmap Heap Scan on obs_part_2024_12 obs_part_12  (cost=11.80..686.23 rows=633 width=8) (actual time=0.247..3.419 rows=633.00 loops=1)
+                    Recheck Cond: ((road_id = 777) AND (obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                    Heap Blocks: exact=606
+                    Buffers: shared hit=611
+                    ->  Bitmap Index Scan on obs_part_2024_12_road_id_obs_time_idx  (cost=0.00..11.64 rows=633 width=0) (actual time=0.148..0.148 rows=633.00 loops=1)
+                          Index Cond: ((road_id = 777) AND (obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                          Index Searches: 1
+                          Buffers: shared hit=5
+Planning:
+  Buffers: shared hit=918
+Planning Time: 4.023 ms
+Execution Time: 48.364 ms

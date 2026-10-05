@@ -1,0 +1,20 @@
+variant,variant_desc,query,query_desc,median_ms,min_ms,max_ms,runs,planning_ms,shared_hit,shared_read,partitions_scanned,scan_nodes,indexes_used
+A,단일 테이블 · 인덱스 없음,Q1,특정 지역의 최근 3개월 월별 통행량,1783.3,1717.5,1842.4,5,0.94,5260,215405,0,Seq Scan,
+A,단일 테이블 · 인덱스 없음,Q2,전 지역 2024-11월 일별 평균 속도,2525.0,2369.6,2630.7,5,0.76,12172,208493,0,Seq Scan,
+A,단일 테이블 · 인덱스 없음,Q3,특정 도로의 2024년 시간대별 평균 속도,1757.1,1737.4,1985.8,5,1.3,19082,201581,0,Seq Scan,
+A,단일 테이블 · 인덱스 없음,Q4,2024년 지역별 연간 통행량 순위,2947.1,2851.9,3048.0,5,0.72,25937,194669,0,Seq Scan,
+B,월 파티션 · 인덱스 없음,Q1,특정 지역의 최근 3개월 월별 통행량,290.2,281.7,298.2,5,1.49,27846,0,3,Seq Scan,
+B,월 파티션 · 인덱스 없음,Q2,전 지역 2024-11월 일별 평균 속도,2413.6,2349.3,2927.6,5,1.57,9050,0,1,Seq Scan,
+B,월 파티션 · 인덱스 없음,Q3,특정 도로의 2024년 시간대별 평균 속도,743.6,710.1,772.9,5,2.33,110524,0,12,Seq Scan,
+B,월 파티션 · 인덱스 없음,Q4,2024년 지역별 연간 통행량 순위,6774.3,4484.9,9114.1,5,6.35,110467,0,12,Seq Scan,
+C,단일 테이블 · 인덱스,Q1,특정 지역의 최근 3개월 월별 통행량,746.2,731.4,1015.5,5,1.12,93868,0,0,Bitmap Heap Scan/Bitmap Index Scan,idx_plain_region_time
+C,단일 테이블 · 인덱스,Q2,전 지역 2024-11월 일별 평균 속도,5559.1,5268.2,6593.7,5,10.18,75,224679,0,Bitmap Heap Scan/Bitmap Index Scan,idx_plain_region_time
+C,단일 테이블 · 인덱스,Q3,특정 도로의 2024년 시간대별 평균 속도,62.4,59.3,69.9,5,1.08,7393,0,0,Index Scan,idx_plain_road_time
+C,단일 테이블 · 인덱스,Q4,2024년 지역별 연간 통행량 순위,4824.5,4350.4,5364.3,5,1.35,130049,90557,0,Seq Scan,
+D,월 파티션 · 인덱스,Q1,특정 지역의 최근 3개월 월별 통행량,499.9,455.1,554.3,5,2.33,27949,0,3,Bitmap Heap Scan/Bitmap Index Scan,obs_part_2024_10_region_id_obs_time_idx/obs_part_2024_11_region_id_obs_time_idx/obs_part_2024_12_region_id_obs_time_idx
+D,월 파티션 · 인덱스,Q2,전 지역 2024-11월 일별 평균 속도,2583.8,2511.7,2734.9,5,2.03,9050,0,1,Seq Scan,
+D,월 파티션 · 인덱스,Q3,특정 도로의 2024년 시간대별 평균 속도,47.4,46.2,48.7,5,4.44,7189,0,12,Bitmap Heap Scan/Bitmap Index Scan,obs_part_2024_01_road_id_obs_time_idx/obs_part_2024_02_road_id_obs_time_idx/obs_part_2024_03_road_id_obs_time_idx/obs_part_2024_04_road_id_obs_time_idx/obs_part_2024_05_road_id_obs_time_idx/obs_part_2024_06_road_id_obs_time_idx/obs_part_2024_07_road_id_obs_time_idx/obs_part_2024_08_road_id_obs_time_idx/obs_part_2024_09_road_id_obs_time_idx/obs_part_2024_10_road_id_obs_time_idx/obs_part_2024_11_road_id_obs_time_idx/obs_part_2024_12_road_id_obs_time_idx
+D,월 파티션 · 인덱스,Q4,2024년 지역별 연간 통행량 순위,4139.4,4006.4,4214.1,5,7.23,110467,0,12,Seq Scan,
+E,일 단위 집계 테이블,Q1,특정 지역의 최근 3개월 월별 통행량,5.8,5.3,10.2,5,1.07,77,0,0,Bitmap Heap Scan/Bitmap Index Scan,daily_region_stats_pkey
+E,일 단위 집계 테이블,Q2,전 지역 2024-11월 일별 평균 속도,11.2,7.3,21.3,5,1.26,172,0,0,Bitmap Heap Scan/Bitmap Index Scan,idx_rollup_day
+E,일 단위 집계 테이블,Q4,2024년 지역별 연간 통행량 순위,11.9,9.4,14.4,5,1.04,10339,0,0,Index Scan,idx_rollup_day

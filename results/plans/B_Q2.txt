@@ -1,0 +1,15 @@
+SET
+GroupAggregate  (cost=177777.23..214679.60 rows=1230079 width=64) (actual time=2015.704..2425.194 rows=30.00 loops=1)
+  Group Key: (to_char((obs_part.obs_time AT TIME ZONE 'Asia/Seoul'::text), 'YYYY-MM-DD'::text))
+  Buffers: shared hit=9050, temp read=3913 written=3914
+  ->  Sort  (cost=177777.23..180852.42 rows=1230079 width=36) (actual time=2001.935..2199.657 rows=1230325.00 loops=1)
+        Sort Key: (to_char((obs_part.obs_time AT TIME ZONE 'Asia/Seoul'::text), 'YYYY-MM-DD'::text))
+        Sort Method: external merge  Disk: 31304kB
+        Buffers: shared hit=9050, temp read=3913 written=3914
+        ->  Seq Scan on obs_part_2024_11 obs_part  (cost=0.00..33652.27 rows=1230079 width=36) (actual time=6.012..1296.840 rows=1230325.00 loops=1)
+              Filter: ((obs_time >= '2024-11-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2024-12-01 00:00:00+09'::timestamp with time zone))
+              Buffers: shared hit=9047
+Planning:
+  Buffers: shared hit=206
+Planning Time: 4.900 ms
+Execution Time: 2431.009 ms

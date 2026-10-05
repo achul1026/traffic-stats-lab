@@ -1,0 +1,8 @@
+.pgdata/
+*.log
+__pycache__/
+api/build/
+api/.gradle/
+.gradle/
+.idea/
+.DS_Store

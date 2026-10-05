@@ -1,0 +1,17 @@
+SET
+Sort  (cost=482.74..482.82 rows=31 width=34) (actual time=9.249..9.255 rows=31.00 loops=1)
+  Sort Key: (sum(total_volume)) DESC, region_id
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=10339
+  ->  HashAggregate  (cost=481.58..481.97 rows=31 width=34) (actual time=9.176..9.188 rows=31.00 loops=1)
+        Group Key: region_id
+        Batches: 1  Memory Usage: 32kB
+        Buffers: shared hit=10333
+        ->  Index Scan using idx_rollup_day on daily_region_stats  (cost=0.29..424.70 rows=11376 width=10) (actual time=0.027..6.355 rows=11346.00 loops=1)
+              Index Cond: ((day >= '2024-01-01'::date) AND (day < '2025-01-01'::date))
+              Index Searches: 1
+              Buffers: shared hit=10333
+Planning:
+  Buffers: shared hit=139
+Planning Time: 1.015 ms
+Execution Time: 9.402 ms

@@ -1,0 +1,22 @@
+SET
+GroupAggregate  (cost=440540.11..441616.93 rows=7352 width=36) (actual time=1696.681..1705.577 rows=24.00 loops=1)
+  Group Key: ((EXTRACT(hour FROM (obs_time AT TIME ZONE 'Asia/Seoul'::text)))::integer)
+  Buffers: shared hit=19946 read=200717
+  ->  Gather Merge  (cost=440540.11..441396.37 rows=7352 width=8) (actual time=1696.419..1703.843 rows=7358.00 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        Buffers: shared hit=19946 read=200717
+        ->  Sort  (cost=439540.09..439547.75 rows=3063 width=8) (actual time=1689.934..1690.241 rows=2452.67 loops=3)
+              Sort Key: ((EXTRACT(hour FROM (obs_time AT TIME ZONE 'Asia/Seoul'::text)))::integer)
+              Sort Method: quicksort  Memory: 154kB
+              Buffers: shared hit=19946 read=200717
+              Worker 0:  Sort Method: quicksort  Memory: 154kB
+              Worker 1:  Sort Method: quicksort  Memory: 154kB
+              ->  Parallel Seq Scan on obs_plain  (cost=0.00..439362.73 rows=3063 width=8) (actual time=5.394..1687.245 rows=2452.67 loops=3)
+                    Filter: ((obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone) AND (road_id = 777))
+                    Rows Removed by Filter: 9997547
+                    Buffers: shared hit=19872 read=200717
+Planning:
+  Buffers: shared hit=62
+Planning Time: 1.487 ms
+Execution Time: 1705.850 ms

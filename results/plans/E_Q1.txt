@@ -1,0 +1,20 @@
+SET
+GroupAggregate  (cost=83.10..85.32 rows=87 width=64) (actual time=7.363..7.385 rows=3.00 loops=1)
+  Group Key: (to_char((day)::timestamp with time zone, 'YYYY-MM'::text))
+  Buffers: shared hit=77
+  ->  Sort  (cost=83.10..83.33 rows=92 width=40) (actual time=7.327..7.338 rows=92.00 loops=1)
+        Sort Key: (to_char((day)::timestamp with time zone, 'YYYY-MM'::text))
+        Sort Method: quicksort  Memory: 27kB
+        Buffers: shared hit=77
+        ->  Bitmap Heap Scan on daily_region_stats  (cost=2.56..80.10 rows=92 width=40) (actual time=6.530..7.246 rows=92.00 loops=1)
+              Recheck Cond: ((region_id = 7) AND (day >= '2024-10-01'::date) AND (day < '2025-01-01'::date))
+              Heap Blocks: exact=69
+              Buffers: shared hit=74
+              ->  Bitmap Index Scan on daily_region_stats_pkey  (cost=0.00..2.54 rows=92 width=0) (actual time=0.059..0.062 rows=92.00 loops=1)
+                    Index Cond: ((region_id = 7) AND (day >= '2024-10-01'::date) AND (day < '2025-01-01'::date))
+                    Index Searches: 1
+                    Buffers: shared hit=5
+Planning:
+  Buffers: shared hit=152
+Planning Time: 1.071 ms
+Execution Time: 7.525 ms

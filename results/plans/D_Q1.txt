@@ -1,0 +1,38 @@
+SET
+GroupAggregate  (cost=43916.06..46728.56 rows=125000 width=40) (actual time=422.551..444.350 rows=3.00 loops=1)
+  Group Key: (to_char((obs_part.obs_time AT TIME ZONE 'Asia/Seoul'::text), 'YYYY-MM'::text))
+  Buffers: shared hit=27949
+  ->  Sort  (cost=43916.06..44228.56 rows=125000 width=36) (actual time=409.557..421.295 rows=121081.00 loops=1)
+        Sort Key: (to_char((obs_part.obs_time AT TIME ZONE 'Asia/Seoul'::text), 'YYYY-MM'::text))
+        Sort Method: quicksort  Memory: 6856kB
+        Buffers: shared hit=27949
+        ->  Append  (cost=700.82..33333.83 rows=125000 width=36) (actual time=14.480..366.946 rows=121081.00 loops=1)
+              Buffers: shared hit=27946
+              ->  Bitmap Heap Scan on obs_part_2024_10 obs_part_1  (cost=700.82..10993.16 rows=41215 width=36) (actual time=14.479..120.593 rows=40937.00 loops=1)
+                    Recheck Cond: ((region_id = 7) AND (obs_time >= '2024-10-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                    Heap Blocks: exact=9259
+                    Buffers: shared hit=9422
+                    ->  Bitmap Index Scan on obs_part_2024_10_region_id_obs_time_idx  (cost=0.00..690.51 rows=41215 width=0) (actual time=6.827..6.828 rows=40937.00 loops=1)
+                          Index Cond: ((region_id = 7) AND (obs_time >= '2024-10-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                          Index Searches: 1
+                          Buffers: shared hit=163
+              ->  Bitmap Heap Scan on obs_part_2024_11 obs_part_2  (cost=681.69..10630.04 rows=40060 width=36) (actual time=7.747..114.985 rows=39362.00 loops=1)
+                    Recheck Cond: ((region_id = 7) AND (obs_time >= '2024-10-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                    Heap Blocks: exact=8950
+                    Buffers: shared hit=9104
+                    ->  Bitmap Index Scan on obs_part_2024_11_region_id_obs_time_idx  (cost=0.00..671.68 rows=40060 width=0) (actual time=6.098..6.099 rows=39362.00 loops=1)
+                          Index Cond: ((region_id = 7) AND (obs_time >= '2024-10-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                          Index Searches: 1
+                          Buffers: shared hit=154
+              ->  Bitmap Heap Scan on obs_part_2024_12 obs_part_3  (cost=743.82..11085.63 rows=43725 width=36) (actual time=7.628..112.492 rows=40782.00 loops=1)
+                    Recheck Cond: ((region_id = 7) AND (obs_time >= '2024-10-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                    Heap Blocks: exact=9261
+                    Buffers: shared hit=9420
+                    ->  Bitmap Index Scan on obs_part_2024_12_region_id_obs_time_idx  (cost=0.00..732.89 rows=43725 width=0) (actual time=5.905..5.905 rows=40782.00 loops=1)
+                          Index Cond: ((region_id = 7) AND (obs_time >= '2024-10-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                          Index Searches: 1
+                          Buffers: shared hit=159
+Planning:
+  Buffers: shared hit=440
+Planning Time: 2.320 ms
+Execution Time: 445.879 ms

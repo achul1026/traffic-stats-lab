@@ -1,0 +1,20 @@
+SET
+GroupAggregate  (cost=402878.66..438991.34 rows=1203756 width=64) (actual time=4959.881..5516.269 rows=30.00 loops=1)
+  Group Key: (to_char((obs_time AT TIME ZONE 'Asia/Seoul'::text), 'YYYY-MM-DD'::text))
+  Buffers: shared hit=75 read=224679, temp read=3913 written=3914
+  ->  Sort  (cost=402878.66..405888.05 rows=1203756 width=36) (actual time=4938.387..5210.950 rows=1230325.00 loops=1)
+        Sort Key: (to_char((obs_time AT TIME ZONE 'Asia/Seoul'::text), 'YYYY-MM-DD'::text))
+        Sort Method: external merge  Disk: 31304kB
+        Buffers: shared hit=75 read=224679, temp read=3913 written=3914
+        ->  Bitmap Heap Scan on obs_plain  (cost=17360.28..262024.40 rows=1203756 width=36) (actual time=669.830..3881.944 rows=1230325.00 loops=1)
+              Recheck Cond: ((obs_time >= '2024-11-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2024-12-01 00:00:00+09'::timestamp with time zone))
+              Heap Blocks: exact=219865
+              Buffers: shared hit=72 read=224679
+              ->  Bitmap Index Scan on idx_plain_region_time  (cost=0.00..17059.34 rows=1203756 width=0) (actual time=545.745..545.752 rows=1230325.00 loops=1)
+                    Index Cond: ((obs_time >= '2024-11-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2024-12-01 00:00:00+09'::timestamp with time zone))
+                    Index Searches: 33
+                    Buffers: shared hit=72 read=4814
+Planning:
+  Buffers: shared hit=133 read=20
+Planning Time: 9.447 ms
+Execution Time: 5538.692 ms

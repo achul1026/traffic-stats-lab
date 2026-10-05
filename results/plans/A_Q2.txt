@@ -1,0 +1,22 @@
+SET
+GroupAggregate  (cost=459625.65..634670.46 rows=1215872 width=64) (actual time=1974.750..2570.627 rows=30.00 loops=1)
+  Group Key: (to_char((obs_time AT TIME ZONE 'Asia/Seoul'::text), 'YYYY-MM-DD'::text))
+  Buffers: shared hit=13036 read=207629
+  ->  Gather Merge  (cost=459625.65..601233.98 rows=1215872 width=36) (actual time=1953.879..2338.430 rows=1230325.00 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        Buffers: shared hit=13036 read=207629
+        ->  Sort  (cost=458625.63..459892.16 rows=506613 width=36) (actual time=1947.034..2027.328 rows=410108.33 loops=3)
+              Sort Key: (to_char((obs_time AT TIME ZONE 'Asia/Seoul'::text), 'YYYY-MM-DD'::text))
+              Sort Method: quicksort  Memory: 25148kB
+              Buffers: shared hit=13036 read=207629
+              Worker 0:  Sort Method: quicksort  Memory: 25026kB
+              Worker 1:  Sort Method: quicksort  Memory: 25139kB
+              ->  Parallel Seq Scan on obs_plain  (cost=0.00..410622.72 rows=506613 width=36) (actual time=5.515..1715.665 rows=410108.33 loops=3)
+                    Filter: ((obs_time >= '2024-11-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2024-12-01 00:00:00+09'::timestamp with time zone))
+                    Rows Removed by Filter: 9589892
+                    Buffers: shared hit=12960 read=207629
+Planning:
+  Buffers: shared hit=63
+Planning Time: 0.727 ms
+Execution Time: 2573.429 ms

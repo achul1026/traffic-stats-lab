@@ -1,0 +1,40 @@
+name: ci
+on:
+  push:
+  pull_request:
+
+jobs:
+  api-test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: lab
+          POSTGRES_HOST_AUTH_METHOD: trust
+          POSTGRES_DB: lab
+        ports: ["55432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U lab -d lab" --health-interval 5s --health-timeout 3s --health-retries 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: gradle/actions/setup-gradle@v4
+      - name: 단위 테스트
+        working-directory: api
+        run: ./gradlew test --no-daemon
+      - name: 데이터셋 준비(소규모)
+        run: |
+          for f in sql/00_reset.sql; do psql -h localhost -p 55432 -U lab -d lab -q -f $f; done
+          psql -h localhost -p 55432 -U lab -d lab -q -v ON_ERROR_STOP=1 -v rows=300000 -f sql/10_plain.sql
+          psql -h localhost -p 55432 -U lab -d lab -q -v ON_ERROR_STOP=1 -f sql/20_partitioned.sql
+          psql -h localhost -p 55432 -U lab -d lab -q -v ON_ERROR_STOP=1 -f sql/40_rollup.sql
+          psql -h localhost -p 55432 -U lab -d lab -q -c "DROP TABLE obs_plain; ANALYZE obs_part;"
+      - name: 통합 테스트(원본과 집계 테이블 결과 일치)
+        working-directory: api
+        env:
+          LAB_IT: "1"
+        run: ./gradlew test --no-daemon --rerun-tasks

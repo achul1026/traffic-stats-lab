@@ -1,0 +1,4 @@
+http_server_requests_seconds_count{application="traffic-stats-api",error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/api/stats/daily-avg-speed"} 1106
+http_server_requests_seconds_sum{application="traffic-stats-api",error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/api/stats/daily-avg-speed"} 886.325033672
+hikaricp_connections_active{application="traffic-stats-api",pool="HikariPool-1"} 0.0
+hikaricp_connections_max{application="traffic-stats-api",pool="HikariPool-1"} 10.0

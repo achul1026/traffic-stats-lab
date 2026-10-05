@@ -1,0 +1,32 @@
+SET
+Sort  (cost=440386.54..440386.62 rows=31 width=10) (actual time=4679.628..4729.305 rows=31.00 loops=1)
+  Sort Key: (sum(volume)) DESC, region_id
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=130063 read=90543
+  ->  Finalize GroupAggregate  (cost=440376.48..440385.78 rows=31 width=10) (actual time=4679.424..4729.172 rows=31.00 loops=1)
+        Group Key: region_id
+        Buffers: shared hit=130060 read=90543
+        ->  Gather Merge  (cost=440376.48..440385.10 rows=74 width=10) (actual time=4679.406..4729.122 rows=93.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=130060 read=90543
+              ->  Sort  (cost=439376.45..439376.53 rows=31 width=10) (actual time=4668.179..4668.184 rows=31.00 loops=3)
+                    Sort Key: region_id
+                    Sort Method: quicksort  Memory: 25kB
+                    Buffers: shared hit=130060 read=90543
+                    Worker 0:  Sort Method: quicksort  Memory: 25kB
+                    Worker 1:  Sort Method: quicksort  Memory: 25kB
+                    ->  Partial HashAggregate  (cost=439375.38..439375.68 rows=31 width=10) (actual time=4668.110..4668.117 rows=31.00 loops=3)
+                          Group Key: region_id
+                          Batches: 1  Memory Usage: 32kB
+                          Buffers: shared hit=130046 read=90543
+                          Worker 0:  Batches: 1  Memory Usage: 32kB
+                          Worker 1:  Batches: 1  Memory Usage: 32kB
+                          ->  Parallel Seq Scan on obs_plain  (cost=0.00..408089.65 rows=6257145 width=6) (actual time=5.593..2470.616 rows=5006747.67 loops=3)
+                                Filter: ((obs_time >= '2024-01-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                                Rows Removed by Filter: 4993252
+                                Buffers: shared hit=130046 read=90543
+Planning:
+  Buffers: shared hit=151
+Planning Time: 1.203 ms
+Execution Time: 4729.512 ms

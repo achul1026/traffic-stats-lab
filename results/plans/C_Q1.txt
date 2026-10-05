@@ -1,0 +1,20 @@
+SET
+GroupAggregate  (cost=110557.98..113200.95 rows=117465 width=40) (actual time=732.687..756.001 rows=3.00 loops=1)
+  Group Key: (to_char((obs_time AT TIME ZONE 'Asia/Seoul'::text), 'YYYY-MM'::text))
+  Buffers: shared hit=93868
+  ->  Sort  (cost=110557.98..110851.65 rows=117465 width=36) (actual time=722.924..734.677 rows=121081.00 loops=1)
+        Sort Key: (to_char((obs_time AT TIME ZONE 'Asia/Seoul'::text), 'YYYY-MM'::text))
+        Sort Method: quicksort  Memory: 6856kB
+        Buffers: shared hit=93868
+        ->  Bitmap Heap Scan on obs_plain  (cost=1996.54..100666.33 rows=117465 width=36) (actual time=62.938..678.190 rows=121081.00 loops=1)
+              Recheck Cond: ((region_id = 7) AND (obs_time >= '2024-10-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+              Heap Blocks: exact=93394
+              Buffers: shared hit=93865
+              ->  Bitmap Index Scan on idx_plain_region_time  (cost=0.00..1967.18 rows=117465 width=0) (actual time=35.082..35.090 rows=121081.00 loops=1)
+                    Index Cond: ((region_id = 7) AND (obs_time >= '2024-10-01 00:00:00+09'::timestamp with time zone) AND (obs_time < '2025-01-01 00:00:00+09'::timestamp with time zone))
+                    Index Searches: 1
+                    Buffers: shared hit=471
+Planning:
+  Buffers: shared hit=166
+Planning Time: 0.977 ms
+Execution Time: 757.346 ms

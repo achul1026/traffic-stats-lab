@@ -1,0 +1,87 @@
+# 로컬 실험 환경: PostgreSQL + Redis + API + Prometheus + Grafana
+#   docker compose up -d --build
+#   LAB_ROWS=5000000 docker compose run --rm seed     # 합성 데이터 적재(처음 한 번)
+# API: http://localhost:8080  Prometheus: http://localhost:9090  Grafana: http://localhost:3000 (admin/admin)
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: lab
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: lab
+    command: ["postgres", "-c", "shared_buffers=512MB", "-c", "work_mem=64MB", "-c", "jit=off", "-c", "max_wal_size=1GB"]
+    ports: ["55433:5432"]
+    volumes:
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lab -d lab"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    ports: ["56380:6379"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  seed:
+    image: postgres:18
+    profiles: ["seed"]
+    depends_on:
+      postgres: { condition: service_healthy }
+    environment:
+      PGHOST: postgres
+      PGUSER: lab
+      PGDATABASE: lab
+      LAB_ROWS: ${LAB_ROWS:-5000000}
+    volumes:
+      - ./sql:/sql:ro
+    entrypoint: ["/bin/bash", "-c"]
+    command:
+      - |
+        set -e
+        psql -q -v ON_ERROR_STOP=1 -f /sql/00_reset.sql
+        psql -q -v ON_ERROR_STOP=1 -v rows=$$LAB_ROWS -f /sql/10_plain.sql
+        psql -q -v ON_ERROR_STOP=1 -f /sql/20_partitioned.sql
+        psql -q -v ON_ERROR_STOP=1 -f /sql/40_rollup.sql
+        psql -q -v ON_ERROR_STOP=1 -c "DROP TABLE obs_plain; CREATE INDEX idx_part_region_time ON obs_part (region_id, obs_time); CREATE INDEX idx_part_road_time ON obs_part (road_id, obs_time); ANALYZE obs_part;"
+        psql -Atc "select count(*) from obs_part" -c "select count(*) from daily_region_stats"
+
+  api:
+    build: ./api
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    environment:
+      LAB_DB_URL: jdbc:postgresql://postgres:5432/lab
+      LAB_DB_USER: lab
+      LAB_REDIS_HOST: redis
+      LAB_REDIS_PORT: "6379"
+    ports: ["8081:8080"]
+
+  prometheus:
+    image: prom/prometheus:latest
+    depends_on: [api]
+    volumes:
+      - ./ops/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports: ["9090:9090"]
+
+  grafana:
+    image: grafana/grafana:latest
+    depends_on: [prometheus]
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+    volumes:
+      - ./ops/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./ops/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    ports: ["3000:3000"]
+
+volumes:
+  pgdata:
